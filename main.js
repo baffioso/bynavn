@@ -18,6 +18,11 @@ const suffix = [
 
 let selectedSuffixes = suffix.map((i) => i.suffix);
 
+styles = {
+  opacity: ['case', ['==', null, ['get', 'suffix']], 0, 0.7],
+  radius: ['interpolate', ['linear'], ['zoom'], 8, 2, 11, 15],
+};
+
 mapboxgl.accessToken =
   'pk.eyJ1IjoiYmFmZmlvc28iLCJhIjoiY2s5cmN6ejBvMHN5OTNnbWVxcDVobmZ2bCJ9.hEIms6er4x8Jwg6LfM4tSg';
 
@@ -26,6 +31,7 @@ let map = new mapboxgl.Map({
   style: 'mapbox://styles/mapbox/dark-v9', // stylesheet location
   center: [11, 55.5], // starting position [lng, lat]
   zoom: 5, // starting zoom
+  hash: true,
 });
 
 map.on('load', () => {
@@ -43,10 +49,40 @@ map.on('load', () => {
     },
     layout: {},
     paint: {
-      'circle-radius': 2,
+      'circle-radius': styles.radius,
       'circle-color': circleColor(suffix),
-      'circle-opacity': 0.7,
+      'circle-opacity': styles.opacity,
     },
+  });
+
+  // Create a popup, but don't add it to the map yet.
+  var popup = new mapboxgl.Popup({
+    closeButton: false,
+    closeOnClick: false,
+  });
+
+  map.on('mouseenter', 'byer', function (e) {
+    // Change the cursor style as a UI indicator.
+    map.getCanvas().style.cursor = 'pointer';
+
+    var coordinates = e.features[0].geometry.coordinates.slice();
+    var description = e.features[0].properties.navn;
+
+    // Ensure that if the map is zoomed out such that multiple
+    // copies of the feature are visible, the popup appears
+    // over the copy being pointed to.
+    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+      coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+    }
+
+    // Populate the popup and set its coordinates
+    // based on the feature found.
+    popup.setLngLat(coordinates).setHTML(description).addTo(map);
+  });
+
+  map.on('mouseleave', 'byer', function () {
+    map.getCanvas().style.cursor = '';
+    popup.remove();
   });
 });
 
@@ -95,13 +131,7 @@ const createCheckbox = (name, suffix, color) => {
 
   checkbox.addEventListener('mouseenter', function (e) {
     const suf = e.target.value;
-    map.setPaintProperty('byer', 'circle-radius', [
-      'match',
-      ['get', 'suffix'],
-      suf,
-      5,
-      2,
-    ]);
+    map.setPaintProperty('byer', 'circle-radius', styles.radius);
     map.setPaintProperty('byer', 'circle-opacity', [
       'match',
       ['get', 'suffix'],
@@ -113,7 +143,7 @@ const createCheckbox = (name, suffix, color) => {
 
   checkbox.addEventListener('mouseleave', function (e) {
     const suf = e.target.value;
-    map.setPaintProperty('byer', 'circle-radius', 2);
+    map.setPaintProperty('byer', 'circle-radius', styles.radius);
     map.setPaintProperty('byer', 'circle-opacity', 0.7);
   });
 
@@ -135,7 +165,7 @@ const circleColor = (data) => {
   );
 
   // default color
-  style.push('grey');
+  style.push('lightgray');
 
   return style;
 };
@@ -149,8 +179,15 @@ const filterFeatures = () => {
       input.toUpperCase(),
       ['upcase', ['get', 'navn']],
     ]);
+    map.setPaintProperty('byer', 'circle-opacity', 0.7);
   } else {
     map.setFilter('byer', null);
+    map.setPaintProperty('byer', 'circle-opacity', [
+      'case',
+      ['==', null, ['get', 'suffix']],
+      0,
+      0.7,
+    ]);
   }
 };
 

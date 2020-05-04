@@ -28,6 +28,12 @@ body {
   color: white;
 }
 
+::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: lightgray;
+  opacity: 1; /* Firefox */
+}
+
 #suffix {
   z-index: 10;
   /* height: 70%; */
@@ -45,4 +51,9 @@ body {
 label {
   display: block !important;
   margin-bottom: 0px !important;
+}
+
+.mapboxgl-popup {
+  max-width: 400px;
+  font-family: 'Courier New', Courier, monospace;
 }
