@@ -131,13 +131,19 @@ const createCheckbox = (name, suffix, color) => {
 
   checkbox.addEventListener('mouseenter', function (e) {
     const suf = e.target.value;
-    map.setPaintProperty('byer', 'circle-radius', styles.radius);
+    map.setPaintProperty('byer', 'circle-radius', [
+      'match',
+      ['get', 'suffix'],
+      suf,
+      5,
+      2,
+    ]);
     map.setPaintProperty('byer', 'circle-opacity', [
       'match',
       ['get', 'suffix'],
       suf,
       1,
-      0.2,
+      0.1,
     ]);
   });
 
