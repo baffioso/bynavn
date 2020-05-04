@@ -135,7 +135,7 @@ const circleColor = (data) => {
   );
 
   // default color
-  style.push('black');
+  style.push('grey');
 
   return style;
 };
@@ -146,8 +146,8 @@ const filterFeatures = () => {
     console.log(input);
     map.setFilter('byer', [
       'in',
-      ['upcase', ['get', 'navn']],
       input.toUpperCase(),
+      ['upcase', ['get', 'navn']],
     ]);
   } else {
     map.setFilter('byer', null);
