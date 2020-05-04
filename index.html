@@ -14,11 +14,29 @@
   </head>
   <body>
     <div id="map"></div>
+    <div id="search">
+      <input
+        type="text"
+        name="search"
+        id="search-input"
+        placeholder="Søg bynavn"
+        oninput="filterFeatures()"
+      />
+    </div>
     <div id="suffix">
       <p style="text-align: center;">
         Endelser på <br />
         bynavne
       </p>
+      <label>
+        <input
+          type="checkbox"
+          name="select-all"
+          checked
+          onclick="toggelSelectAll()"
+          id="select-all"
+        />Vælg alle
+      </label>
       <!-- <div class="dropdown">
         <button
           class="btn btn-warning dropdown-toggle"

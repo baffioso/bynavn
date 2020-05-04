@@ -1,11 +1,3 @@
-// const suffix = [
-//   { name: '*sted', suffix: 'sted', color: 'red' },
-//   { name: '*by', suffix: 'by', color: 'green' },
-//   { name: '*havn', suffix: 'havn', color: 'blue' },
-//   { name: '*strup', suffix: 'strup', color: 'orange' },
-//   { name: '*ved', suffix: 'ved', color: 'yellow' },
-// ];
-
 const suffix = [
   { name: '*rup', suffix: 'rup', color: 'red' },
   { name: '*by', suffix: 'by', color: 'green' },
@@ -58,6 +50,25 @@ map.on('load', () => {
   });
 });
 
+const toggelSelectAll = () => {
+  let el = document.getElementById('select-all');
+  let checkboxes = document.querySelectorAll('input[name="legend"]');
+
+  if (el.checked) {
+    for (var checkbox of checkboxes) {
+      checkbox.checked = true;
+      selectedSuffixes = suffix.map((i) => i.suffix);
+      map.setFilter('byer', filterBySuffix(selectedSuffixes));
+    }
+  } else {
+    for (var checkbox of checkboxes) {
+      checkbox.checked = false;
+      selectedSuffixes = [];
+      map.setFilter('byer', filterBySuffix(selectedSuffixes));
+    }
+  }
+};
+
 const createCheckbox = (name, suffix, color) => {
   // create the necessary elements
   var label = document.createElement('label');
@@ -65,6 +76,7 @@ const createCheckbox = (name, suffix, color) => {
   var checkbox = document.createElement('input');
 
   checkbox.type = 'checkbox'; // make the element a checkbox
+  checkbox.name = 'legend';
   checkbox.value = suffix;
   checkbox.checked = true;
 
@@ -126,6 +138,20 @@ const circleColor = (data) => {
   style.push('black');
 
   return style;
+};
+
+const filterFeatures = () => {
+  let input = document.getElementById('search-input').value;
+  if (input.length > 0) {
+    console.log(input);
+    map.setFilter('byer', [
+      'in',
+      ['upcase', ['get', 'navn']],
+      input.toUpperCase(),
+    ]);
+  } else {
+    map.setFilter('byer', null);
+  }
 };
 
 const filterBySuffix = (suffixes) => {

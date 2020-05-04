@@ -13,6 +13,21 @@ body {
   height: 100%;
 }
 
+#search {
+  top: 10px;
+  left: 10px;
+  position: fixed;
+  z-index: 1;
+}
+
+#search-input {
+  border: none;
+  background-color: rgba(125, 125, 125, 0.5);
+  padding: 10px;
+  font-family: 'Courier New', Courier, monospace;
+  color: white;
+}
+
 #suffix {
   z-index: 10;
   /* height: 70%; */
