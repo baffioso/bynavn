@@ -22,7 +22,7 @@ body {
 
 #search-input {
   border: none;
-  background-color: rgba(125, 125, 125, 0.5);
+  background-color: rgba(68, 68, 68, 0.8);
   padding: 10px;
   font-family: 'Courier New', Courier, monospace;
   color: white;
@@ -30,7 +30,7 @@ body {
 
 ::placeholder {
   /* Chrome, Firefox, Opera, Safari 10.1+ */
-  color: lightgray;
+  color: white;
   opacity: 1; /* Firefox */
 }
 

@@ -122,10 +122,10 @@ const createCheckbox = (name, suffix, color) => {
 
     if (this.checked) {
       selectedSuffixes.push(suf);
-      map.setFilter('byer', filterBySuffix(selectedSuffixes));
+      map.setFilter('byer', ['in', 'suffix', selectedSuffixes]);
     } else {
       selectedSuffixes.splice(selectedSuffixes.indexOf(suf), 1);
-      map.setFilter('byer', filterBySuffix(selectedSuffixes));
+      map.setFilter('byer', ['in', 'suffix', selectedSuffixes]);
     }
   });
 
