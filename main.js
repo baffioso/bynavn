@@ -1,7 +1,7 @@
 const suffix = [
   { name: '*rup', suffix: 'rup', color: 'red' },
   { name: '*by', suffix: 'by', color: 'green' },
-  { name: '*huse', suffix: 'huse', color: 'blue' },
+  { name: '*huse', suffix: 'huse', color: 'rgb(139, 0, 0)' },
   { name: '*sted', suffix: 'sted', color: 'orange' },
   { name: '*lev', suffix: 'lev', color: 'yellow' },
   { name: '*skov', suffix: 'skov', color: 'greenyellow' },
@@ -18,9 +18,12 @@ const suffix = [
 
 let selectedSuffixes = suffix.map((i) => i.suffix);
 
+// detect if it is mobile
+const mobile = isMobile.any;
+
 styles = {
   opacity: ['case', ['==', null, ['get', 'suffix']], 0, 0.7],
-  radius: ['interpolate', ['linear'], ['zoom'], 8, 2, 11, 15],
+  radius: ['interpolate', ['linear'], ['zoom'], 7, 2, 11, 15],
 };
 
 mapboxgl.accessToken =
@@ -111,6 +114,8 @@ const createCheckbox = (name, suffix, color) => {
   var description = document.createTextNode(name);
   var checkbox = document.createElement('input');
 
+  label.id = suffix;
+
   checkbox.type = 'checkbox'; // make the element a checkbox
   checkbox.name = 'legend';
   checkbox.value = suffix;
@@ -122,42 +127,48 @@ const createCheckbox = (name, suffix, color) => {
 
     if (this.checked) {
       selectedSuffixes.push(suf);
-      map.setFilter('byer', filterBySuffix(selectedSuffixes));
+      map.setFilter('byer', ['in', 'suffix'].concat(selectedSuffixes));
     } else {
       selectedSuffixes.splice(selectedSuffixes.indexOf(suf), 1);
-      map.setFilter('byer', filterBySuffix(selectedSuffixes));
+      map.setFilter('byer', ['in', 'suffix'].concat(selectedSuffixes));
     }
   });
 
-  checkbox.addEventListener('mouseenter', function (e) {
-    const suf = e.target.value;
-    map.setPaintProperty('byer', 'circle-radius', [
-      'match',
-      ['get', 'suffix'],
-      suf,
-      5,
-      2,
-    ]);
-    map.setPaintProperty('byer', 'circle-opacity', [
-      'match',
-      ['get', 'suffix'],
-      suf,
-      1,
-      0.1,
-    ]);
-  });
+  // Only add hover effect on desktop
+  if (!mobile) {
+    label.addEventListener('mouseenter', function (e) {
+      const suffix = e.target.id;
+      highlightFeatures(suffix);
+    });
 
-  checkbox.addEventListener('mouseleave', function (e) {
-    const suf = e.target.value;
-    map.setPaintProperty('byer', 'circle-radius', styles.radius);
-    map.setPaintProperty('byer', 'circle-opacity', 0.7);
-  });
+    label.addEventListener('mouseleave', function () {
+      map.setPaintProperty('byer', 'circle-radius', styles.radius);
+      map.setPaintProperty('byer', 'circle-opacity', styles.opacity);
+    });
+  }
 
   label.appendChild(checkbox); // add the box to the element
   label.appendChild(description); // add the description to the element
 
   // add the label element to the div
   document.getElementById('suffix').appendChild(label).style.color = color;
+};
+
+const highlightFeatures = (suffix) => {
+  map.setPaintProperty('byer', 'circle-radius', [
+    'match',
+    ['get', 'suffix'],
+    suffix,
+    5,
+    2,
+  ]);
+  map.setPaintProperty('byer', 'circle-opacity', [
+    'match',
+    ['get', 'suffix'],
+    suffix,
+    1,
+    0.1,
+  ]);
 };
 
 const circleColor = (data) => {
