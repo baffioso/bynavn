@@ -3,7 +3,7 @@ body {
   width: 100%;
   height: 100%;
   margin: 0px;
-  background-color: black;
+  padding: 0px;
   font-family: 'Courier New', Courier, monospace;
   font-size: small;
 }
@@ -79,4 +79,9 @@ label {
 .mapboxgl-popup {
   max-width: 400px;
   font-family: 'Courier New', Courier, monospace;
+}
+
+.mapboxgl-ctrl-group {
+  background: rgb(112, 112, 112) !important;
+  border-radius: 0px !important;
 }

@@ -38,6 +38,8 @@ let map = new mapboxgl.Map({
 });
 
 map.on('load', () => {
+  map.addControl(new mapboxgl.NavigationControl(), 'bottom-left');
+
   // create layercontrol
   for (const i of suffix) {
     createCheckbox(i.name, i.suffix, i.color);
