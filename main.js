@@ -43,13 +43,15 @@ map.on('load', () => {
     createCheckbox(i.name, i.suffix, i.color);
   }
 
+  map.addSource('byer', {
+    type: 'geojson',
+    data: 'data/bynavneendelser.geojson',
+  });
+
   map.addLayer({
     id: 'byer',
     type: 'circle',
-    source: {
-      type: 'geojson',
-      data: 'data/bynavneendelser.geojson',
-    },
+    source: 'byer',
     layout: {},
     paint: {
       'circle-radius': styles.radius,
@@ -97,13 +99,13 @@ const toggelSelectAll = () => {
     for (var checkbox of checkboxes) {
       checkbox.checked = true;
       selectedSuffixes = suffix.map((i) => i.suffix);
-      map.setFilter('byer', filterBySuffix(selectedSuffixes));
+      map.setFilter('byer', ['in', 'suffix'].concat(selectedSuffixes));
     }
   } else {
     for (var checkbox of checkboxes) {
       checkbox.checked = false;
       selectedSuffixes = [];
-      map.setFilter('byer', filterBySuffix(selectedSuffixes));
+      map.setFilter('byer', ['in', 'suffix'].concat(selectedSuffixes));
     }
   }
 };
@@ -190,15 +192,46 @@ const circleColor = (data) => {
 const filterFeatures = () => {
   let input = document.getElementById('search-input').value;
   if (input.length > 0) {
-    console.log(input);
+    // Filter features and apply single style
     map.setFilter('byer', [
       'in',
       input.toUpperCase(),
       ['upcase', ['get', 'navn']],
     ]);
-    map.setPaintProperty('byer', 'circle-opacity', 0.7);
+    map.setPaintProperty('byer', 'circle-opacity', 0.8);
+    map.setPaintProperty('byer', 'circle-color', 'red');
+
+    // Add labels
+    if (!map.getLayer('byer-label')) {
+      map.addLayer({
+        id: 'byer-label',
+        type: 'symbol',
+        source: 'byer',
+        layout: {
+          'text-field': ['get', 'navn'],
+          'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
+          'text-size': 11,
+          // 'text-transform': 'uppercase',
+          'text-letter-spacing': 0.05,
+          'text-offset': [0, -1.5],
+        },
+        paint: {
+          'text-color': 'white',
+        },
+      });
+    }
+
+    // Filter labels
+    map.setFilter('byer-label', [
+      'in',
+      input.toUpperCase(),
+      ['upcase', ['get', 'navn']],
+    ]);
   } else {
+    // Back to default styling
+    map.removeLayer('byer-label');
     map.setFilter('byer', null);
+    map.setPaintProperty('byer', 'circle-color', circleColor(suffix));
     map.setPaintProperty('byer', 'circle-opacity', [
       'case',
       ['==', null, ['get', 'suffix']],
@@ -206,8 +239,4 @@ const filterFeatures = () => {
       0.7,
     ]);
   }
-};
-
-const filterBySuffix = (suffixes) => {
-  return ['in', 'suffix'].concat(suffixes);
 };
