@@ -18,13 +18,18 @@ body {
   left: 10px;
   position: fixed;
   z-index: 1;
+  background-color: rgba(92, 92, 92, 0.8);
 }
 
 #search-input {
   border: none;
-  background-color: rgba(92, 92, 92, 0.8);
+  background-color: rgba(92, 92, 92, 0);
   padding: 10px;
   font-family: 'Courier New', Courier, monospace;
+  color: white;
+}
+
+#hits {
   color: white;
 }
 

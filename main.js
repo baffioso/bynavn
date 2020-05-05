@@ -60,6 +60,10 @@ map.on('load', () => {
     },
   });
 
+  createPopup();
+});
+
+const createPopup = () => {
   // Create a popup, but don't add it to the map yet.
   var popup = new mapboxgl.Popup({
     closeButton: false,
@@ -89,7 +93,7 @@ map.on('load', () => {
     map.getCanvas().style.cursor = '';
     popup.remove();
   });
-});
+};
 
 const toggelSelectAll = () => {
   let el = document.getElementById('select-all');
@@ -193,15 +197,12 @@ const filterFeatures = () => {
   let input = document.getElementById('search-input').value;
   if (input.length > 0) {
     // Filter features and apply single style
-    map.setFilter('byer', [
-      'in',
-      input.toUpperCase(),
-      ['upcase', ['get', 'navn']],
-    ]);
+    const filter = ['in', input.toUpperCase(), ['upcase', ['get', 'navn']]];
+    map.setFilter('byer', filter);
     map.setPaintProperty('byer', 'circle-opacity', 0.8);
     map.setPaintProperty('byer', 'circle-color', 'red');
 
-    // Add labels
+    // Add labels (if not exists)
     if (!map.getLayer('byer-label')) {
       map.addLayer({
         id: 'byer-label',
@@ -222,11 +223,12 @@ const filterFeatures = () => {
     }
 
     // Filter labels
-    map.setFilter('byer-label', [
-      'in',
-      input.toUpperCase(),
-      ['upcase', ['get', 'navn']],
-    ]);
+    map.setFilter('byer-label', filter);
+
+    // Feature count
+    const feat = map.querySourceFeatures('byer', { filter: filter });
+    const unique = getUniqueFeatures(feat, 'id');
+    document.getElementById('hits').innerHTML = '(' + unique.length + ')';
   } else {
     // Back to default styling
     map.removeLayer('byer-label');
@@ -238,5 +240,23 @@ const filterFeatures = () => {
       0,
       0.7,
     ]);
+    document.getElementById('hits').innerHTML = '';
   }
+};
+
+const getUniqueFeatures = (array, comparatorProperty) => {
+  var existingFeatureKeys = {};
+  // Because features come from tiled vector data, feature geometries may be split
+  // or duplicated across tile boundaries and, as a result, features may appear
+  // multiple times in query results.
+  var uniqueFeatures = array.filter(function (el) {
+    if (existingFeatureKeys[el.properties[comparatorProperty]]) {
+      return false;
+    } else {
+      existingFeatureKeys[el.properties[comparatorProperty]] = true;
+      return true;
+    }
+  });
+
+  return uniqueFeatures;
 };
