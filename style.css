@@ -48,6 +48,24 @@ body {
   color: azure;
 }
 
+#github {
+  position: fixed;
+  bottom: 40px;
+  right: 10px;
+  background-color: rgba(201, 201, 201, 0.6);
+  border-radius: 50%;
+  padding: 3px;
+}
+
+#github:hover {
+  cursor: pointer;
+}
+
+#github > a > img {
+  width: 20px;
+  height: 20px;
+}
+
 label {
   display: block !important;
   margin-bottom: 0px !important;
