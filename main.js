@@ -16,6 +16,7 @@ const suffix = [
   { name: '*sø', suffix: 'sø', color: 'darksalmon' },
 ];
 
+let input = '';
 let selectedSuffixes = suffix.map((i) => i.suffix);
 
 // detect if it is mobile
@@ -196,7 +197,9 @@ const circleColor = (data) => {
 };
 
 const filterFeatures = () => {
-  let input = document.getElementById('search-input').value;
+  input = document.getElementById('search-input').value;
+  let counterElem = document.getElementById('count');
+
   if (input.length > 0) {
     // Filter features and apply single style
     const filter = ['in', input.toUpperCase(), ['upcase', ['get', 'navn']]];
@@ -214,7 +217,6 @@ const filterFeatures = () => {
           'text-field': ['get', 'navn'],
           'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
           'text-size': 11,
-          // 'text-transform': 'uppercase',
           'text-letter-spacing': 0.05,
           'text-offset': [0, -1.5],
         },
@@ -228,9 +230,17 @@ const filterFeatures = () => {
     map.setFilter('byer-label', filter);
 
     // Feature count
-    const feat = map.querySourceFeatures('byer', { filter: filter });
-    const unique = getUniqueFeatures(feat, 'id');
-    document.getElementById('hits').innerHTML = '(' + unique.length + ')';
+    map.on('render', () => {
+      if (input.length > 0) {
+        const feat = map.queryRenderedFeatures({
+          layers: ['byer'],
+          filter: filter,
+        });
+        const unique = getUniqueFeatures(feat, 'id');
+        document.getElementById('count').innerHTML = '(' + unique.length + ')';
+        document.getElementById('count').style = 'padding-right: 8px';
+      }
+    });
   } else {
     // Back to default styling
     map.removeLayer('byer-label');
@@ -242,7 +252,8 @@ const filterFeatures = () => {
       0,
       0.7,
     ]);
-    document.getElementById('hits').innerHTML = '';
+    document.getElementById('count').innerHTML = '';
+    document.getElementById('count').style = 'padding-right: 0px';
   }
 };
 

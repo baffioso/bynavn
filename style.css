@@ -19,7 +19,7 @@ body {
   position: fixed;
   z-index: 1;
   background-color: rgba(92, 92, 92, 0.8);
-  padding-right: 8px;
+  /* padding-right: 8px; */
 }
 
 #search-input {
@@ -30,7 +30,7 @@ body {
   color: white;
 }
 
-#hits {
+#count {
   color: white;
 }
 
@@ -45,13 +45,17 @@ body {
   /* height: 70%; */
   min-width: 100px;
   /* width: 20px; */
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.7);
   /* background-color: white; */
   top: 10px;
   right: 10px;
   position: fixed;
   padding: 10px;
   color: azure;
+}
+
+#suffix > label {
+  padding-bottom: 5px;
 }
 
 #github {
@@ -84,7 +88,7 @@ label {
 
 .mapboxgl-ctrl-group {
   background: rgb(112, 112, 112);
-  /* border-radius: 0px; */
+  border-radius: 0px;
 }
 
 .mapboxgl-ctrl-group button {
