@@ -202,7 +202,7 @@ const filterFeatures = () => {
     const filter = ['in', input.toUpperCase(), ['upcase', ['get', 'navn']]];
     map.setFilter('byer', filter);
     map.setPaintProperty('byer', 'circle-opacity', 0.8);
-    map.setPaintProperty('byer', 'circle-color', 'red');
+    map.setPaintProperty('byer', 'circle-color', 'rgb(53, 175, 109)');
 
     // Add labels (if not exists)
     if (!map.getLayer('byer-label')) {
