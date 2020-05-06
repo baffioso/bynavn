@@ -230,7 +230,7 @@ const filterFeatures = () => {
     // Feature count
     const feat = map.querySourceFeatures('byer', { filter: filter });
     const unique = getUniqueFeatures(feat, 'id');
-    document.getElementById('hits').innerHTML = '(' + unique.length + ') ';
+    document.getElementById('hits').innerHTML = '(' + unique.length + ')';
   } else {
     // Back to default styling
     map.removeLayer('byer-label');

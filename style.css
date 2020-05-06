@@ -83,6 +83,11 @@ label {
 }
 
 .mapboxgl-ctrl-group {
-  background: rgb(112, 112, 112) !important;
-  border-radius: 0px !important;
+  background: rgb(112, 112, 112);
+  /* border-radius: 0px; */
+}
+
+.mapboxgl-ctrl-group button {
+  width: 35px;
+  height: 35px;
 }
