@@ -234,7 +234,7 @@ const filterFeatures = () => {
   } else {
     // Back to default styling
     map.removeLayer('byer-label');
-    map.setFilter('byer', null);
+    map.setFilter('byer', ['in', 'suffix'].concat(selectedSuffixes));
     map.setPaintProperty('byer', 'circle-color', circleColor(suffix));
     map.setPaintProperty('byer', 'circle-opacity', [
       'case',
