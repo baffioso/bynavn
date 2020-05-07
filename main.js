@@ -32,7 +32,7 @@ mapboxgl.accessToken =
 
 let map = new mapboxgl.Map({
   container: 'map', // container id
-  style: 'mapbox://styles/mapbox/dark-v9', // stylesheet location
+  style: 'mapbox://styles/baffioso/ck9wal8yy09p11in1tuc5t814', // stylesheet location
   center: [11, 55.5], // starting position [lng, lat]
   zoom: 5, // starting zoom
   hash: true,
