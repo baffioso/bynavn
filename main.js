@@ -14,6 +14,7 @@ const suffix = [
   { name: '*lund', suffix: 'lund', color: 'darkkhaki' },
   { name: '*løse', suffix: 'løse', color: 'mistyrose' },
   { name: '*sø', suffix: 'sø', color: 'darksalmon' },
+  { name: '*havn', suffix: 'havn', color: 'rgb(0, 250, 154)' },
 ];
 
 let input = '';
