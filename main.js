@@ -17,6 +17,7 @@ const suffix = [
   { name: '*havn', suffix: 'havn', color: 'rgb(0, 250, 154)' },
 ];
 
+let searchMode = false;
 let input = '';
 let selectedSuffixes = suffix.map((i) => i.suffix);
 
@@ -100,20 +101,40 @@ const createPopup = () => {
 };
 
 const toggelSelectAll = () => {
+  searchMode = false;
   let el = document.getElementById('select-all');
   let checkboxes = document.querySelectorAll('input[name="legend"]');
 
   if (el.checked) {
+    document.getElementById('search-input').value = '';
+    document.getElementById('count').innerHTML = '';
+    document.getElementById('count').style = 'padding-right: 0px';
+
     for (var checkbox of checkboxes) {
       checkbox.checked = true;
       selectedSuffixes = suffix.map((i) => i.suffix);
       map.setFilter('byer', ['in', 'suffix'].concat(selectedSuffixes));
     }
   } else {
+    document.getElementById('search-input').value = '';
+    document.getElementById('count').innerHTML = '';
+    document.getElementById('count').style = 'padding-right: 0px';
+
+    if (map.getLayer('byer-label')) {
+      map.removeLayer('byer-label');
+    }
+
     for (var checkbox of checkboxes) {
       checkbox.checked = false;
       selectedSuffixes = [];
       map.setFilter('byer', ['in', 'suffix'].concat(selectedSuffixes));
+      map.setPaintProperty('byer', 'circle-color', circleColor(suffix));
+      map.setPaintProperty('byer', 'circle-opacity', [
+        'case',
+        ['==', null, ['get', 'suffix']],
+        0,
+        0.7,
+      ]);
     }
   }
 };
@@ -197,7 +218,8 @@ const circleColor = (data) => {
   return style;
 };
 
-const filterFeatures = () => {
+const searchFilter = () => {
+  searchMode = true;
   input = document.getElementById('search-input').value;
   let counterElem = document.getElementById('count');
 
@@ -232,7 +254,7 @@ const filterFeatures = () => {
 
     // Feature count
     map.on('render', () => {
-      if (input.length > 0) {
+      if (input.length > 0 && searchMode) {
         const feat = map.queryRenderedFeatures({
           layers: ['byer'],
           filter: filter,
@@ -244,7 +266,9 @@ const filterFeatures = () => {
     });
   } else {
     // Back to default styling
-    map.removeLayer('byer-label');
+    if (map.getLayer('byer-label')) {
+      map.removeLayer('byer-label');
+    }
     map.setFilter('byer', ['in', 'suffix'].concat(selectedSuffixes));
     map.setPaintProperty('byer', 'circle-color', circleColor(suffix));
     map.setPaintProperty('byer', 'circle-opacity', [
