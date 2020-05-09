@@ -71,9 +71,26 @@ map.on('load', () => {
     source: 'byer',
     layout: {},
     paint: {
-      'circle-radius': styles.radius,
+      'circle-radius': ['interpolate', ['linear'], ['zoom'], 7, 4, 11, 15],
       'circle-color': circleColor(suffix),
       'circle-opacity': 1,
+    },
+    filter: ['in', 'suffix', ''],
+  });
+
+  map.addLayer({
+    id: 'byer-label',
+    type: 'symbol',
+    source: 'byer',
+    layout: {
+      'text-field': ['get', 'navn'],
+      'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
+      'text-size': 11,
+      'text-letter-spacing': 0.05,
+      'text-offset': [0, -1.5],
+    },
+    paint: {
+      'text-color': 'white',
     },
     filter: ['in', 'suffix', ''],
   });
@@ -130,9 +147,7 @@ const toggelSelectAll = () => {
       map.setFilter('byer', ['in', 'suffix'].concat(selectedSuffixes));
     }
   } else {
-    if (map.getLayer('byer-label')) {
-      map.removeLayer('byer-label');
-    }
+    map.setFilter('byer-label', ['in', 'suffix', '']);
 
     for (var checkbox of checkboxes) {
       checkbox.checked = false;
@@ -212,20 +227,6 @@ const createCheckbox = (name, suffix, color) => {
 const highlightFeatures = (suffix) => {
   map.setFilter('byer-highlight', ['==', suffix, ['get', 'suffix']]);
   map.setPaintProperty('byer', 'circle-opacity', 0.1);
-  // map.setPaintProperty('byer', 'circle-radius', [
-  //   'match',
-  //   ['get', 'suffix']
-  //   suffix,
-  //   4,
-  //   2,
-  // ]);
-  // map.setPaintProperty('byer', 'circle-opacity', [
-  //   'match',
-  //   ['get', 'suffix'],
-  //   suffix,
-  //   1,
-  //   0.1,
-  // ]);
 };
 
 const circleColor = (data) => {
@@ -257,23 +258,23 @@ const searchFilter = () => {
     map.setPaintProperty('byer', 'circle-color', 'rgb(53, 175, 109)');
 
     // Add labels (if not exists)
-    if (!map.getLayer('byer-label')) {
-      map.addLayer({
-        id: 'byer-label',
-        type: 'symbol',
-        source: 'byer',
-        layout: {
-          'text-field': ['get', 'navn'],
-          'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
-          'text-size': 11,
-          'text-letter-spacing': 0.05,
-          'text-offset': [0, -1.5],
-        },
-        paint: {
-          'text-color': 'white',
-        },
-      });
-    }
+    // if (!map.getLayer('byer-label')) {
+    //   map.addLayer({
+    //     id: 'byer-label',
+    //     type: 'symbol',
+    //     source: 'byer',
+    //     layout: {
+    //       'text-field': ['get', 'navn'],
+    //       'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
+    //       'text-size': 11,
+    //       'text-letter-spacing': 0.05,
+    //       'text-offset': [0, -1.5],
+    //     },
+    //     paint: {
+    //       'text-color': 'white',
+    //     },
+    //   });
+    // }
 
     // Filter labels
     map.setFilter('byer-label', filter);
@@ -292,9 +293,10 @@ const searchFilter = () => {
     });
   } else {
     // Back to default styling
-    if (map.getLayer('byer-label')) {
-      map.removeLayer('byer-label');
-    }
+    // if (map.getLayer('byer-label')) {
+    //   map.removeLayer('byer-label');
+    // }
+    map.setFilter('byer-label', ['in', 'suffix', '']);
     map.setFilter('byer', ['in', 'suffix'].concat(selectedSuffixes));
     map.setPaintProperty('byer', 'circle-color', circleColor(suffix));
     map.setPaintProperty('byer', 'circle-opacity', [
