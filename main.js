@@ -65,6 +65,19 @@ map.on('load', () => {
     },
   });
 
+  map.addLayer({
+    id: 'byer-highlight',
+    type: 'circle',
+    source: 'byer',
+    layout: {},
+    paint: {
+      'circle-radius': styles.radius,
+      'circle-color': circleColor(suffix),
+      'circle-opacity': 1,
+    },
+    filter: ['in', 'suffix', ''],
+  });
+
   createPopup();
 });
 
@@ -144,6 +157,7 @@ const createCheckbox = (name, suffix, color) => {
 
   // set element properties
   label.id = suffix;
+  label.classList.add('noselect');
   checkbox.type = 'checkbox';
   checkbox.name = 'legend';
   checkbox.value = suffix;
@@ -170,7 +184,9 @@ const createCheckbox = (name, suffix, color) => {
     });
 
     label.addEventListener('touchend', function () {
-      map.setPaintProperty('byer', 'circle-radius', styles.radius);
+      console.log('object');
+      map.setFilter('byer-highlight', ['in', 'suffix', '']);
+      // map.setPaintProperty('byer', 'circle-radius', styles.radius);
       map.setPaintProperty('byer', 'circle-opacity', styles.opacity);
     });
   } else {
@@ -180,7 +196,8 @@ const createCheckbox = (name, suffix, color) => {
     });
 
     label.addEventListener('mouseleave', function () {
-      map.setPaintProperty('byer', 'circle-radius', styles.radius);
+      map.setFilter('byer-highlight', ['in', 'suffix', '']);
+      // map.setPaintProperty('byer', 'circle-radius', styles.radius);
       map.setPaintProperty('byer', 'circle-opacity', styles.opacity);
     });
   }
@@ -193,20 +210,22 @@ const createCheckbox = (name, suffix, color) => {
 };
 
 const highlightFeatures = (suffix) => {
-  map.setPaintProperty('byer', 'circle-radius', [
-    'match',
-    ['get', 'suffix'],
-    suffix,
-    5,
-    2,
-  ]);
-  map.setPaintProperty('byer', 'circle-opacity', [
-    'match',
-    ['get', 'suffix'],
-    suffix,
-    1,
-    0.1,
-  ]);
+  map.setFilter('byer-highlight', ['==', suffix, ['get', 'suffix']]);
+  map.setPaintProperty('byer', 'circle-opacity', 0.1);
+  // map.setPaintProperty('byer', 'circle-radius', [
+  //   'match',
+  //   ['get', 'suffix']
+  //   suffix,
+  //   4,
+  //   2,
+  // ]);
+  // map.setPaintProperty('byer', 'circle-opacity', [
+  //   'match',
+  //   ['get', 'suffix'],
+  //   suffix,
+  //   1,
+  //   0.1,
+  // ]);
 };
 
 const circleColor = (data) => {
