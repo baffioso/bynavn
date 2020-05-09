@@ -101,25 +101,22 @@ const createPopup = () => {
 };
 
 const toggelSelectAll = () => {
-  searchMode = false;
   let el = document.getElementById('select-all');
   let checkboxes = document.querySelectorAll('input[name="legend"]');
 
-  if (el.checked) {
-    document.getElementById('search-input').value = '';
-    document.getElementById('count').innerHTML = '';
-    document.getElementById('count').style = 'padding-right: 0px';
+  // clear search
+  searchMode = false;
+  document.getElementById('search-input').value = '';
+  document.getElementById('count').innerHTML = '';
+  document.getElementById('count').style = 'padding-right: 0px';
 
+  if (el.checked) {
     for (var checkbox of checkboxes) {
       checkbox.checked = true;
       selectedSuffixes = suffix.map((i) => i.suffix);
       map.setFilter('byer', ['in', 'suffix'].concat(selectedSuffixes));
     }
   } else {
-    document.getElementById('search-input').value = '';
-    document.getElementById('count').innerHTML = '';
-    document.getElementById('count').style = 'padding-right: 0px';
-
     if (map.getLayer('byer-label')) {
       map.removeLayer('byer-label');
     }
@@ -145,9 +142,9 @@ const createCheckbox = (name, suffix, color) => {
   var description = document.createTextNode(name);
   var checkbox = document.createElement('input');
 
+  // set element properties
   label.id = suffix;
-
-  checkbox.type = 'checkbox'; // make the element a checkbox
+  checkbox.type = 'checkbox';
   checkbox.name = 'legend';
   checkbox.value = suffix;
   checkbox.checked = true;
@@ -165,8 +162,18 @@ const createCheckbox = (name, suffix, color) => {
     }
   });
 
-  // Only add hover effect on desktop
-  if (!mobile) {
+  //  Add hover effect depending on device
+  if (mobile) {
+    label.addEventListener('touchstart', function (e) {
+      const suffix = e.target.id;
+      highlightFeatures(suffix);
+    });
+
+    label.addEventListener('touchend', function () {
+      map.setPaintProperty('byer', 'circle-radius', styles.radius);
+      map.setPaintProperty('byer', 'circle-opacity', styles.opacity);
+    });
+  } else {
     label.addEventListener('mouseenter', function (e) {
       const suffix = e.target.id;
       highlightFeatures(suffix);
