@@ -9,7 +9,8 @@ Bemærk at fx Hellerup ved København ikke dukker op ved 'rup', dette skyldes at
 ![bynavne demo](demo.gif "bynavne demo")
 
 Når der zoomes ind og rundt, så ændre URL'ens parametre sig hele tiden. Dette kan bruges til fx at man ønsker at sende et link over Nordjylland til til andre.  
-Visualiseringen er blevet testet og virker i følgende browsere Firefox, Chrome og Microsoft Edge.
+Visualiseringen er blevet testet og virker i følgende browsere Firefox, Chrome og Microsoft Edge. <br>
+Visualiserings demoen kan ses [her](https://baffioso.github.io/bynavn/#5.89/56.117/11.489)
 ## Data
 
 Data kommer fra stednavnedatabasen som er hentet fra [Kortforsyningen](https://download.kortforsyningen.dk/)
