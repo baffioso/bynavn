@@ -8,7 +8,7 @@ Søgningen tager ikke hensyn til store og små bogstaver, så 'LUND' eller 'lund
 Bemærk at fx Hellerup ved København ikke dukker op ved 'rup', dette skyldes at Hellerup er officielt defineret som en bydel og ikke en by. Der er en del af disse stednavne som man måske forventer er en by, men er defineret som bydel.  
 ![bynavne demo](demo.gif "bynavne demo")
 
-Når der zoomes ind og rundt, så ændre URL'ens parametre sig hele tiden. Dette kan bruges til fx at man ønsker at sende et link over Nordjylland til til andre.  
+Når der zoomes ind og rundt, så ændre URL'ens parametre sig hele tiden. Dette kan bruges til fx at man ønsker at sende et link over Nordjylland til andre.  
 Visualiseringen er blevet testet og virker i følgende browsere Firefox, Chrome og Microsoft Edge. <br>
 Visualiserings demoen kan ses [her](https://baffioso.github.io/bynavn/#5.89/56.117/11.489)
 ## Data
