@@ -13,7 +13,7 @@ Visualiseringen er blevet testet og virker i følgende browsere Firefox, Chrome 
 Visualiserings demoen kan ses [her](https://baffioso.github.io/bynavn/#5.89/56.117/11.489)
 ## Geodata
 
-Geodata kommer fra Danske Stednavne som er hentet fra [SdFE](https://sdfe.dk/hent-data/danske-stednavne/).  Danske Stednavne indeholder ca. 140.000 stednavne, hvor 7977 er defineret som bynavne. Datavask er sket med QGIS samt eksport til en GeoJSON fil.
+Geodata kommer fra Danske Stednavne som er hentet fra [SDFE](https://sdfe.dk/hent-data/danske-stednavne/).  Danske Stednavne indeholder ca. 140.000 stednavne, hvor 7977 er defineret som bynavne. Datavask er sket med QGIS samt eksport til en GeoJSON fil.
 
 ## Inspiration
-Tobias Vierzwos visualisering "[The end is near]((https://tobiaskauer.org/projects/end/)" af tyske bynavne har været den primære inspirationskilde. 
+Tobias Vierzwos visualisering "[The end is near](https://tobiaskauer.org/projects/end/)" af tyske bynavne har været den primære inspirationskilde. 
