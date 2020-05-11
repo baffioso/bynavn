@@ -257,25 +257,6 @@ const searchFilter = () => {
     map.setPaintProperty('byer', 'circle-opacity', 0.8);
     map.setPaintProperty('byer', 'circle-color', 'rgb(53, 175, 109)');
 
-    // Add labels (if not exists)
-    // if (!map.getLayer('byer-label')) {
-    //   map.addLayer({
-    //     id: 'byer-label',
-    //     type: 'symbol',
-    //     source: 'byer',
-    //     layout: {
-    //       'text-field': ['get', 'navn'],
-    //       'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
-    //       'text-size': 11,
-    //       'text-letter-spacing': 0.05,
-    //       'text-offset': [0, -1.5],
-    //     },
-    //     paint: {
-    //       'text-color': 'white',
-    //     },
-    //   });
-    // }
-
     // Filter labels
     map.setFilter('byer-label', filter);
 
@@ -292,10 +273,6 @@ const searchFilter = () => {
       }
     });
   } else {
-    // Back to default styling
-    // if (map.getLayer('byer-label')) {
-    //   map.removeLayer('byer-label');
-    // }
     map.setFilter('byer-label', ['in', 'suffix', '']);
     map.setFilter('byer', ['in', 'suffix'].concat(selectedSuffixes));
     map.setPaintProperty('byer', 'circle-color', circleColor(suffix));
