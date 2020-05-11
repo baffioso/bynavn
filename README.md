@@ -11,9 +11,9 @@ Bemærk at fx Hellerup ved København ikke dukker op ved 'rup', dette skyldes at
 Når der zoomes ind og rundt, så ændre URL'ens parametre sig hele tiden. Dette kan bruges til fx at man ønsker at sende et link over Nordjylland til andre.  
 Visualiseringen er blevet testet og virker i følgende browsere Firefox, Chrome og Microsoft Edge. <br>
 Visualiserings demoen kan ses [her](https://baffioso.github.io/bynavn/#5.89/56.117/11.489)
-## Data
+## Geodata
 
-Data kommer fra stednavnedatabasen som er hentet fra [Kortforsyningen](https://download.kortforsyningen.dk/)
+Geodata kommer fra Danske Stednavne som er hentet fra [SdFE](https://sdfe.dk/hent-data/danske-stednavne/).  Danske Stednavne indeholder ca. 140.000 stednavne, hvor 7977 er defineret som bynavne. Datavask er sket med QGIS samt eksport til en GeoJSON fil.
 
 ## Inspiration
-https://tobiaskauer.org/projects/end/
+Tobias Vierzwos visualisering "[The end is near]((https://tobiaskauer.org/projects/end/)" af tyske bynavne har været den primære inspirationskilde. 
